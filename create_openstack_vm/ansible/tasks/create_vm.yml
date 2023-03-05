@@ -1,0 +1,41 @@
+---
+- name: Check if an old image file exists and remove it in case
+  block:
+    - name: Get disk image stats
+      ansible.builtin.stat:
+        path: "{{ vm_disk_file }}"
+        get_checksum: false
+      register: f
+
+    - name: Check if file esists
+      ansible.builtin.fail:
+      when: f.stat.exists
+
+  rescue:
+    - name: Remove old file
+      ansible.builtin.file:
+        path: "{{ vm_disk_file }}"
+        state: absent 
+
+  always:
+    - name: Copy the VM disk template (from packer)
+      ansible.builtin.command: "cp --sparse=always {{ packer_output_dir }}/base-{{ distro }}-{{ version }}.qcow2 {{ vm_disk_file }}"
+
+- name: Get status of the the VM if alreayd exists
+  community.libvirt.virt:
+    command: status
+    name: "{{ vm_name }}"
+  register: vmstatus
+  ignore_errors: true
+
+- name: Undefine the VM
+  community.libvirt.virt:
+    command: undefine
+    name: "{{ vm_name }}"
+  when: vmstatus.status is defined
+
+- name: Create the VM
+  community.libvirt.virt:
+    command: define
+    xml: "{{ lookup('template', 'vm_template.xml.j2') }}"
+    autostart: yes

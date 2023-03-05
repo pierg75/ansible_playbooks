@@ -1,0 +1,61 @@
+- import_tasks: debug.yml
+  tags:
+    - install_dotfiles
+    - install_dotfiles:debug
+    - debug
+
+- import_tasks: check_vars.yml
+  tags:
+    - install_dotfiles
+    - install_dotfiles:check
+    - check
+
+- import_tasks: git.yml
+  tags:
+    - install_git
+    - install_dotfiles
+    - install_dotfiles:git
+
+- import_tasks: packages.yml
+  tags:
+    - install_packages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# vim:ft=yaml.ansible.

@@ -1,0 +1,13 @@
+---
+- name: Install mako packages
+  ansible.builtin.package:
+    name:
+      - mako
+      - python3-mako
+    state: latest
+
+- name: Copy mako config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/mako"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
+    force: true

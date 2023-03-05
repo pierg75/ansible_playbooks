@@ -1,0 +1,12 @@
+---
+- name: Install waybar packages
+  ansible.builtin.package:
+    name:
+      - waybar
+    state: latest
+
+- name: Copy waybar config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/waybar"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
+    force: true

@@ -1,0 +1,12 @@
+---
+- name: Install wofi packages
+  ansible.builtin.package:
+    name:
+      - wofi
+    state: latest
+
+- name: Copy wofi config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/wofi"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
+    force: true

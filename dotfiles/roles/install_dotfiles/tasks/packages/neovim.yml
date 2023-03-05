@@ -1,0 +1,13 @@
+---
+- name: Install neovim packages
+  ansible.builtin.package:
+    name:
+      - neovim
+      - python3-neovim
+    state: latest
+
+- name: Copy neovim config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/nvim-0.5"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
+    force: true

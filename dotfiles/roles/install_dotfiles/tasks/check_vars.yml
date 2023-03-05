@@ -1,0 +1,8 @@
+- name: Make sure the variable are set
+  fail: "error: {{item}} not set"
+  when: item not in vars
+  loop:
+    - local_dir_name
+    - local_git_path
+    - repo_url
+    - dest_user

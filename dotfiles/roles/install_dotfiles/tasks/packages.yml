@@ -1,0 +1,28 @@
+---
+- name: Install zsh
+  import_tasks: packages/zsh.yml
+  when: install_zsh is defined and install_zsh
+
+- name: Install alacritty
+  import_tasks: packages/acritty.yml
+  when: install_alacritty is defined and install_alacritty
+
+- name: Install hyprland
+  import_tasks: packages/hyprland.yml
+  when: install_hyprland is defined and install_hyprland
+
+- name: Install mako
+  import_tasks: packages/mako.yml
+  when: install_mako is defined and install_mako
+
+- name: Install neovim
+  import_tasks: packages/neovim.yml
+  when: install_neovim is defined and install_neovim
+
+- name: Install waybar
+  import_tasks: packages/waybar.yml
+  when: install_waybar is defined and install_waybar
+
+- name: Install wofi
+  import_tasks: packages/wofi.yml
+  when: install_wofi is defined and install_wofi

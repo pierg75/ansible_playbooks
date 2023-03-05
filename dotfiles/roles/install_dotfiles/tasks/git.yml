@@ -1,0 +1,19 @@
+- name: Install Git
+  ansible.builtin.package:
+    name: git
+    state: latest
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: "{{ repo_url }}"
+    dest: "{{ local_git_path }}"
+    version: master
+
+
+
+
+
+
+
+
+# vim:ft=yaml.ansible.

@@ -1,0 +1,14 @@
+---
+# vars file for install_dotfiles
+
+# Enable this to dump all facts about localhost
+# If enabled, the other tasks are not played
+debug: false
+
+# git repo variables
+local_dir_name: dotfiles
+local_git_path: /tmp/{{ local_dir_name }}
+repo_url: 'https://github.com/pierg75/dotfiles.git'
+
+# user variables
+dest_user:

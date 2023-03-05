@@ -1,0 +1,17 @@
+---
+- name: Install sway packages
+  ansible.builtin.package:
+    name:
+      - sway
+      - swaylock
+      - swayidle
+      - swaybg
+      - brightnessctl
+      - pulseaudio-utils
+    state: latest
+
+- name: Copy sway config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/sway"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
+    force: true

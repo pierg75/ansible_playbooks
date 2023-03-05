@@ -1,0 +1,24 @@
+---
+- name: Register a system with specific RHN host or satellite
+  hosts: all
+  gather_facts: true
+
+  vars:
+    server_hostname: satellite.example.com
+    username: joe_user
+    password: somepass
+    pool_ids:
+      - 0123456789abcdef0123456789abcdef
+      - 1123456789abcdef0123456789abcdef
+
+  tasks:    
+    - name: Make sure the system is clean
+      ansible.builtin.command: "subscription-manager clean"
+
+    - name: Register the system
+      community.general.redhat_subscription:
+        state: present
+        username: "{{ username }}"
+        password: "{{ password }}"
+        pool_ids: "{{ pool_ids }}"
+        auto_attach: true

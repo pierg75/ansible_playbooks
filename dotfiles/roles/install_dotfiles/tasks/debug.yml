@@ -1,0 +1,8 @@
+- block:
+  - name: Print all local facts
+    ansible.builtin.debug:
+      var: ansible_facts
+
+  - name: Exit playbook if debug is enabled
+    meta: end_play
+  when: debug

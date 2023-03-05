@@ -1,0 +1,12 @@
+---
+- name: Install alacritty packages
+  ansible.builtin.package:
+    name:
+      - alacritty
+    state: latest
+
+- name: Copy alacritty config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/alacritty"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
+    force: true

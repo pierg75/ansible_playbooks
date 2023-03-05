@@ -1,0 +1,17 @@
+---
+- name: Install and configure dotfiles
+  hosts: all
+  gather_facts: true
+  
+  roles:
+    - role: install_dotfiles
+      dest_user: plambri
+      install_zsh: true
+      install_hyprland: true
+      install_wofi: true
+      install_mako: true
+      install_alacritty: true
+      install_neovim: true
+      install_waybar: true
+      install_sway: false
+    
