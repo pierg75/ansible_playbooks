@@ -1,0 +1,9 @@
+---
+- name: Install a VM with openstack All-in-one
+  hosts: localhost
+  gather_facts: true
+  become: false
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - import_tasks: tasks/create_vm.yml
