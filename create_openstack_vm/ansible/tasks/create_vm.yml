@@ -1,4 +1,20 @@
 ---
+- import_tasks: tasks/check_vm_running.yml
+
+- name: Destroy the VM
+  community.libvirt.virt:
+    command: destroy
+    name: "{{ vm_name }}"
+  when: vmstatus.status is defined and vmstatus.status == "running"
+
+- import_tasks: tasks/check_vm_running.yml
+
+- name: Undefine the VM
+  community.libvirt.virt:
+    command: undefine
+    name: "{{ vm_name }}"
+  when: vmstatus.status is defined
+
 - name: Check if an old image file exists and remove it in case
   block:
     - name: Get disk image stats
@@ -12,6 +28,7 @@
       when: f.stat.exists
 
   rescue:
+
     - name: Remove old file
       ansible.builtin.file:
         path: "{{ vm_disk_file }}"
@@ -21,21 +38,25 @@
     - name: Copy the VM disk template (from packer)
       ansible.builtin.command: "cp --sparse=always {{ packer_output_dir }}/base-{{ distro }}-{{ version }}.qcow2 {{ vm_disk_file }}"
 
-- name: Get status of the the VM if alreayd exists
-  community.libvirt.virt:
-    command: status
-    name: "{{ vm_name }}"
-  register: vmstatus
-  ignore_errors: true
-
-- name: Undefine the VM
-  community.libvirt.virt:
-    command: undefine
-    name: "{{ vm_name }}"
-  when: vmstatus.status is defined
-
 - name: Create the VM
   community.libvirt.virt:
     command: define
     xml: "{{ lookup('template', 'vm_template.xml.j2') }}"
     autostart: yes
+
+- name: Start the VM
+  community.libvirt.virt:
+    state: running
+    name: "{{ vm_name }}"
+
+- name: Get the IP address of the VM
+  ansible.builtin.shell: virsh domifaddr rhel8-test1  | grep ipv | cut -d / -f 1| awk 'NR==1{print $NF}'
+  register: ipaddr
+
+- name: Fail in case there's no ip addr
+  ansible.builtin.fail:
+    msg: "No IP address found"
+  when: ipaddr is not defined and ipaddr == ""
+
+- name: Set IP add fact
+  ansible.builtin.set_fact: vm_ipaddr="{{ ipaddr }}"

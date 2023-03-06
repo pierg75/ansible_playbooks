@@ -1,0 +1,7 @@
+---
+- name: Get status of the the VM if alreayd exists
+  community.libvirt.virt:
+    command: status
+    name: "{{ vm_name }}"
+  register: vmstatus
+  ignore_errors: true

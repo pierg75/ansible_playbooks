@@ -1,0 +1,14 @@
+---
+vm_name: osp1
+# Memory has to be in KiB
+vm_memory: 67108864
+vm_cpus: 16
+vm_disk_base_path: /mnt/vm/
+vm_disk_type: qcow2
+vm_disk_file: "{{ vm_disk_base_path }}{{ vm_name }}.{{ vm_disk_type }}"
+vm_disk_driver: virtio
+vm_distro: "{{ lookup('env', 'DISTRO')}}"
+vm_version: "{{ lookup('env', 'VERSION')}}"
+# The first network will always be 'default'
+vm_secondary_network: ospnet
+
