@@ -37,5 +37,8 @@ packer build -var-file=packer/"$DISTRO"-"$VERSION".pkrvars.hcl -var "disk_size=1
 # Install ansible required collections
 ansible-galaxy collection install -r ansible/requirements.yml
 
-# Start ansible jobs
-ansible-playbook --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/playbook.yml
+# Install the vm
+ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_vm.yml
+
+# Install OSP
+ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_osp.yml
