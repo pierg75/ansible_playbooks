@@ -6,10 +6,12 @@ For now it only uses Centos 9.
 
 If you want to use another distro, make sure the filenames follow these rules:
 
-* The main packer file is named as <DISTRO>.pkr.hcl
-* The packer variable file is named as <DISTRO>-<VERSION>.pkrvars.hcl
-* The kickstart file is placed into `packer/http` and has the name <DISTRO>.ks.cfg
+* The main packer file is named as `<DISTRO>.pkr.hcl`
+* The packer variable file is named as `<DISTRO>-<VERSION>.pkrvars.hcl`
+* The kickstart file is placed into `packer/http` and has the name `<DISTRO>.ks.cfg`
 
 
 If you want to modify the root password (yes, root is allowed to ssh), change it in the kickstart file
-packer/centos.ks.cfg and in the centos-9.pkrvars.hcl packer variable file.
+`packer/centos.ks.cfg` and in the `centos-9.pkrvars.hcl` packer variable file.
+
+If you want to change the VM name and other details, change the variables in `ansible/playbook.yml`

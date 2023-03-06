@@ -6,3 +6,4 @@ iso_url      = ["http://lon.mirror.rackspace.com/centos-stream/9-stream/BaseOS/x
 ssh_username = "root"
 password     = "password"
 vm_name      = "base-centos-9"
+disk_size    = "20G"

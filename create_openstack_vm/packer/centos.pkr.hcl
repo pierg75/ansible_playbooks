@@ -34,6 +34,10 @@ variable "vm_name" {
   type    = string
   default = ""
 }
+variable "disk_size" {
+  type    = string
+  default = ""
+}
 
 source "qemu" "centos" {
   boot_command     = "${var.boot_command}"
@@ -44,6 +48,7 @@ source "qemu" "centos" {
   disk_discard     = "unmap"
   disk_image       = false
   disk_interface   = "virtio"
+  disk_size        = "${var.disk_size}"
   format           = "${var.format}"
   headless         = true
   host_port_max    = 2240

@@ -10,7 +10,6 @@
     vm_cpus: 16
     vm_disk_base_path: /mnt/vm/
     vm_disk_type: qcow2
-    vm_disk_size: 100G
     vm_disk_file: "{{ vm_disk_base_path }}{{ vm_name }}.{{ vm_disk_type }}"
     vm_disk_driver: virtio
     vm_distro: "{{ lookup('env', 'DISTRO')}}"
