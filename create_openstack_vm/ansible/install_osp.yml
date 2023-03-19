@@ -1,0 +1,23 @@
+---
+- name: Prepare OSP
+  hosts: all
+  gather_facts: true
+  become: true
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - import_tasks: tasks/prepare_osp.yml
+
+- name: Install OSP
+  hosts: all
+  gather_facts: true
+  become: true
+  vars:
+    ansible_ssh_user: "stack"
+    ansible_ssh_password: "stack"
+
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - import_tasks: tasks/install_osp_stack.yml
+

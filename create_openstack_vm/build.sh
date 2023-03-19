@@ -32,13 +32,17 @@ if [[ ! -e packer/"$DISTRO".pkr.hcl ]]; then
 fi
 
 # Build packer image
+echo "=== Building packer image ==="
 packer build -var-file=packer/"$DISTRO"-"$VERSION".pkrvars.hcl -var "disk_size=100G" packer/"$DISTRO".pkr.hcl
 
 # Install ansible required collections
+echo "=== Install ansible requirements ==="
 ansible-galaxy collection install -r ansible/requirements.yml
 
 # Install the vm
-ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_vm.yml
+echo "=== Run ansible tasks to install the VM ==="
+ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_vm.yml
 
 # Install OSP
-ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_osp.yml
+echo "=== Run ansible tasks to install OSP ==="
+ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i ansible/inventory --extra-vars "distro=${DISTRO} version=${VERSION} packer_output_dir=${PWD}/output" ansible/install_osp.yml

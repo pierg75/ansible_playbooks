@@ -11,4 +11,11 @@ vm_distro: "{{ lookup('env', 'DISTRO')}}"
 vm_version: "{{ lookup('env', 'VERSION')}}"
 # The first network will always be 'default'
 vm_secondary_network: ospnet
-
+# List of nic names we don't use
+no_nic:
+  - "tu"
+  - "wl"
+  - "lo"
+# Stack user
+stack_user: stack
+stack_password: stack

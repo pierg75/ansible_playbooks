@@ -1,0 +1,14 @@
+- name: Create stack user
+  ansible.builtin.user:
+      name: "{{ stack_user }}"
+      comment: Openstack user
+      password: "{{ stack_password | password_hash('sha512') }}"
+      shell: /usr/bin/bash
+      update_password: on_create
+
+- name: Add sudo entry
+  ansible.builtin.lineinfile:
+    create: true
+    line: stack ALL=(root) NOPASSWD:ALL
+    path: /etc/sudoers.d/stack
+    mode: 0440

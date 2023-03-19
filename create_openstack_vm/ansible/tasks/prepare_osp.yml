@@ -1,0 +1,79 @@
+---
+- import_tasks: tasks/check_vm_running.yml
+
+- name: debug
+  debug:
+    var: vmstatus
+
+- name: Undefine the VM
+  community.libvirt.virt:
+    command: undefine
+    name: "{{ vm_name }}"
+  when: vmstatus.status is defined and vmstatus != "running"
+
+# First let's set the hostname
+- name: Set the hostname
+  ansible.builtin.hostname:
+    name: "{{ vm_name }}"
+
+- name: Update all packages
+  ansible.builtin.package:
+    name: "*"
+    state: latest
+
+- import_tasks: tasks/create_user_sudo.yml
+
+- name: Enable crb repository
+  ansible.builtin.command: dnf config-manager --set-enabled crb
+
+- name: Install centos-release-openstack-zed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  loop: 
+    - centos-release-openstack-zed
+    - network-scripts
+    - dhcp-client
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+
+- name: Disable some services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop: 
+    - firewalld
+    - NetworkManager
+
+- name: Copy legacy config files
+  ansible.builtin.template:
+    src: templates/ifcfg.j2
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ item }}"
+  loop: "{{ ansible_facts['interfaces'] }}"
+  when: item[0:2] not in no_nic
+
+- name: Enable legacy network
+  ansible.builtin.service:
+    name: network
+    state: restarted
+    enabled: true
+
+- name: Disable some services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop: 
+    - firewalld
+    - NetworkManager
+
+- name: Update all packages once more
+  ansible.builtin.package:
+    name: "*"
+    state: latest
+
+- name: Reboot the machine
+  ansible.builtin.reboot:

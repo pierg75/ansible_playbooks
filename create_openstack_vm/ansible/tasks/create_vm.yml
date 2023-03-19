@@ -49,8 +49,12 @@
     state: running
     name: "{{ vm_name }}"
 
+- name: Pause for 60s 
+  ansible.builtin.pause:
+    seconds: 60
+
 - name: Get the IP address of the VM
-  ansible.builtin.shell: virsh domifaddr rhel8-test1  | grep ipv | cut -d / -f 1| awk 'NR==1{print $NF}'
+  ansible.builtin.shell: /usr/bin/virsh domifaddr {{ vm_name }}  | grep ipv | cut -d / -f 1| awk 'NR==1{print $NF}'
   register: ipaddr
 
 - name: Fail in case there's no ip addr
@@ -59,4 +63,9 @@
   when: ipaddr is not defined and ipaddr == ""
 
 - name: Set IP add fact
-  ansible.builtin.set_fact: vm_ipaddr="{{ ipaddr }}"
+  ansible.builtin.set_fact: vm_ipaddr="{{ ipaddr.stdout }}"
+
+- name: Set the inventory for the next ansible call
+  ansible.builtin.template:
+    src: templates/inventory_osp.j2
+    dest: inventory

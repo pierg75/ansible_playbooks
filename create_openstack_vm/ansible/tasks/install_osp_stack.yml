@@ -1,0 +1,13 @@
+---
+- name: Install openstack-packstack
+  ansible.builtin.package:
+    name: "openstack-packstack"
+    state: latest
+
+- name: Set up packstack
+  ansible.builtin.command: packstack --allinone
+  register: packstack
+
+- name: Check packstack output
+  debug:
+    var: packstack
