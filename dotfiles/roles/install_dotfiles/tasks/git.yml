@@ -2,6 +2,7 @@
   ansible.builtin.package:
     name: git
     state: latest
+  become: true
 
 - name: Git checkout
   ansible.builtin.git:

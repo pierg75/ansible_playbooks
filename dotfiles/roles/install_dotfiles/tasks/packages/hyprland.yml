@@ -10,6 +10,7 @@
     name:
       - hyprland
     state: latest
+  become: true
 
 - name: Copy hyprland config
   ansible.builtin.copy:

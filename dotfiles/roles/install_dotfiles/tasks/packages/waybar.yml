@@ -4,6 +4,7 @@
     name:
       - waybar
     state: latest
+  become: true
 
 - name: Copy waybar config
   ansible.builtin.copy:

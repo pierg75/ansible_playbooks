@@ -5,6 +5,7 @@
       - mako
       - python3-mako
     state: latest
+  become: true
 
 - name: Copy mako config
   ansible.builtin.copy:

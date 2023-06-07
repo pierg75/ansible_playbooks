@@ -9,6 +9,7 @@
       - brightnessctl
       - pulseaudio-utils
     state: latest
+  become: true
 
 - name: Copy sway config
   ansible.builtin.copy:

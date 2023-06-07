@@ -4,6 +4,7 @@
     name:
       - alacritty
     state: latest
+  become: true
 
 - name: Copy alacritty config
   ansible.builtin.copy:

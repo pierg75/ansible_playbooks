@@ -4,6 +4,7 @@
     name:
       - wofi
     state: latest
+  become: true
 
 - name: Copy wofi config
   ansible.builtin.copy:

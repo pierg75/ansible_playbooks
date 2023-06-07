@@ -5,6 +5,7 @@
       - zsh
       - zsh-lovers
     state: latest
+  become: true
 
 - name: Copy zshrc to home dir
   ansible.builtin.copy:
@@ -16,3 +17,4 @@
   ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"
     shell: /usr/bin/zsh 
+  become: true
