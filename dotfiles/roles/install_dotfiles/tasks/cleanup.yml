@@ -1,0 +1,6 @@
+---
+- name: Remove temp directory
+  ansible.builtin.file:
+    path: "{{ local_git_path }}"
+    state: absent
+

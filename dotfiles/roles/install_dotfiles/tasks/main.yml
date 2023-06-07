@@ -20,6 +20,9 @@
   tags:
     - install_packages
 
+- import_tasks: cleanup.yml
+  tags:
+    - cleanup
 
 
 
