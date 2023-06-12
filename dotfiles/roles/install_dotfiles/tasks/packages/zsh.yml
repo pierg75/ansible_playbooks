@@ -18,3 +18,14 @@
     name: "{{ ansible_facts['user_id'] }}"
     shell: /usr/bin/zsh 
   become: true
+
+- name: Install sheldon config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/sheldon/plugins.toml"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/sheldon/"
+    force: true
+
+- name: Install starship config
+  ansible.builtin.copy:
+    src: "{{ local_git_path }}/config/starship.toml"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/"
