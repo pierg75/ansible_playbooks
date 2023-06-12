@@ -26,3 +26,7 @@
 - name: Install wofi
   import_tasks: packages/wofi.yml
   when: install_wofi is defined and install_wofi
+
+- name: Install tmux
+  import_tasks: packages/tmux.yml
+  when: install_tmux is defined and install_tmux
