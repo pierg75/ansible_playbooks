@@ -22,6 +22,16 @@
   tags:
     - rust
 
+- name: Install some packages necessary for the next cargo packages
+  ansible.builtin.package:
+    name:
+      - cmake
+      - openssl-devel
+    state: latest
+  become: true
+
+
+
 - name: Install few useful rust packages
   community.general.cargo:
     name:
