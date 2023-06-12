@@ -21,3 +21,13 @@
   shell: /tmp/sh.rustup.rs -y
   tags:
     - rust
+
+- name: Install few useful rust packages
+  community.general.cargo:
+    name:
+      - ripgrep
+      - bat
+      - broot
+      - starship
+      - shelldon
+      - cargo-update
