@@ -16,6 +16,10 @@ There are few things that you manually have to do:
     ```
     192.168.122.217     ansible_user=root   ansible_ssh_password=passwd
     ```
+- If you want to just apply it to localhost, use this in the inventory:
+    ```
+    localhost 		ansible_connection=local
+    ```
 
 - Define the packages to be installed. These needs to be configured as role variables with
   value true in the dotfile.yml playbook. The variables needs to be named as "install_PACKAGE",
@@ -47,3 +51,5 @@ There are few things that you manually have to do:
 
 - Setting the variable "debug" to true in the file "roles/install_dotfiles/vars/main.yml" 
   will print out all the ansible_facts
+
+- nvim will probably require some other packages to be installed, like `nodejs` (npm) or `tar` or `zip`, depending on the local configuration
